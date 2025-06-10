@@ -2,6 +2,8 @@
 
 **Kedung Susu API** adalah RESTful API backend yang dibangun menggunakan Laravel 10. API ini digunakan untuk mengelola data pengguna dan produk susu murni dengan autentikasi token dan kontrol akses berbasis role (admin & user).
 
+API : [API LINK](https://.postman.co/workspace/My-Workspace~d7920d57-a8a8-4064-801a-1d805ceeeb4e/collection/9887809-95f558e0-b4d6-4651-9b7c-3d290b8140f1?action=share&creator=9887809)
+
 ## 🚀 Fitur Utama
 
 - Autentikasi dengan Laravel Sanctum
@@ -53,7 +55,7 @@ php artisan storage:link
 | PUT    | `/api/users/{id}`    | Update user         |
 | DELETE | `/api/users/{id}`    | Hapus user          |
 
-## 🛒 Endpoint Produk
+## 🛒 Endpoint Produk (Admin only kecuali get all product )
 
 | Method | Endpoint               | Role    | Deskripsi         |
 |--------|------------------------|---------|-------------------|
