@@ -9,7 +9,7 @@ API : [API LINK](https://.postman.co/workspace/My-Workspace~d7920d57-a8a8-4064-8
 - Autentikasi dengan Laravel Sanctum
 - Role-based access control (Spatie Laravel Permission)
 - CRUD User (khusus admin)
-- CRUD Produk (admin)
+- CRUD Produk (admin kecuali yg get list produk)
 - Upload gambar produk
 - Format response JSON konsisten
 - Validasi dan error handling lengkap
