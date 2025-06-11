@@ -39,11 +39,19 @@ class AuthController extends Controller
             // Assign default role
             $user->assignRole('user');
 
+            // Buat token Sanctum
+            $token = $user->createToken('api-token')->plainTextToken;
+
+            // Tambahkan role
+            $role = $user->getRoleNames()->first();
+            $user->role = $role;
+            unset($user->roles); // jika sebelumnya pakai load('roles')
+
             return ApiResponse::success([
+                'token' => $token,
                 'user' => $user,
             ], 'User registered successfully');
         } catch (Exception $e) {
-            // Optional: log error
             Log::error('Register error: ' . $e->getMessage());
 
             return ApiResponse::error('Something went wrong', 500, [
@@ -51,7 +59,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
     public function login(Request $request)
     {
         try {
