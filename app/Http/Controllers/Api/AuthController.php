@@ -18,11 +18,23 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
-            // Validasi manual agar bisa dikontrol error-nya
+            // Validasi email dan password dengan aturan regex
             $validator = Validator::make($request->all(), [
-                'name' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required|min:6',
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required',
+                    'email:rfc,dns',
+                    'unique:users,email',
+                    'regex:/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/'
+                ],
+                'password' => [
+                    'required',
+                    'min:6',
+                    'regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).+$/'
+                ],
+            ], [
+                'email.regex' => 'Format email tidak valid, contoh: user@gmail.com',
+                'password.regex' => 'Password harus mengandung huruf dan angka',
             ]);
 
             if ($validator->fails()) {
