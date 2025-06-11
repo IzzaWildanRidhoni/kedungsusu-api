@@ -44,12 +44,18 @@ class AuthController extends Controller
 
             // Tambahkan role
             $role = $user->getRoleNames()->first();
-            $user->role = $role;
+            $permissions = $user->getAllPermissions()->pluck('name');
             unset($user->roles); // jika sebelumnya pakai load('roles')
 
             return ApiResponse::success([
                 'token' => $token,
-                'user' => $user,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $role,
+                    'permissions' => $permissions,
+                ]
             ], 'User registered successfully');
         } catch (Exception $e) {
             Log::error('Register error: ' . $e->getMessage());
@@ -84,12 +90,18 @@ class AuthController extends Controller
 
             // Ambil role name dan sembunyikan properti "roles" dari user
             $role = $user->getRoleNames()->first(); // "user" / "admin"
-            $user->role = $role;
+            $permissions = $user->getAllPermissions()->pluck('name');
             unset($user->roles); // Hapus kalau sebelumnya pakai load('roles')
 
             return ApiResponse::success([
                 'token' => $token,
-                'user' => $user,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $role,
+                    'permissions' => $permissions,
+                ],
             ], 'Login successful');
         } catch (Exception $e) {
             Log::error('Login error: ' . $e->getMessage());
@@ -110,9 +122,19 @@ class AuthController extends Controller
             }
 
             // Tambahkan role ke user
-            $user->role = $user->getRoleNames()->first();
+            $role = $user->getRoleNames()->first();
+            $permissions = $user->getAllPermissions()->pluck('name');
+            unset($user->roles); // Hapus kalau sebelumnya pakai load('roles')
 
-            return ApiResponse::success($user, 'User profile fetched');
+            return ApiResponse::success([
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $role,
+                    'permissions' => $permissions,
+                ],
+            ], 'User profile fetched');
         } catch (\Exception $e) {
             Log::error('Fetch user error: ' . $e->getMessage());
 
