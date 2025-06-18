@@ -40,6 +40,23 @@ class ProductController extends Controller
             return ApiResponse::error('Failed to create product', 500, ['error' => $e->getMessage()]);
         }
     }
+
+    public function show($id)
+    {
+        try {
+            $product = Product::find($id);
+
+            if (!$product) {
+                return ApiResponse::error('Product not found', 404);
+            }
+
+            return ApiResponse::success($product, 'Product retrieved successfully');
+        } catch (Exception $e) {
+            return ApiResponse::error('Failed to retrieve product', 500, ['error' => $e->getMessage()]);
+        }
+    }
+
+
     public function update(Request $request, Product $product)
     {
         try {
